@@ -17,7 +17,7 @@ It does **not** yet do anything automatic (no band-follows-radio logic, no
 PTT following) -- it's still a manually-driven test jig. See "Next steps"
 below for where this goes next (CAT/TCI-over-IP band following).
 
-images\WebTX.jpg
+!images/WebTX.jpg
 
 ## Hardware needed
 
