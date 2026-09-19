@@ -132,40 +132,6 @@ just won't get the web UI until it's configured and rebooted.
    either `http://alexctrl.local/` or a plain IP address if mDNS doesn't
    resolve on your PC.
 
-## Troubleshooting: build fails partway through unpacking packages (Windows)
-
-If PlatformIO fails during the first build with a Python traceback while
-unpacking the ESP32 Arduino toolchain/libraries -- not a compile error, a
-crash during package extraction -- it's very likely Windows' old 260
-character path limit, not anything wrong with this project. PlatformIO
-unpacks packages under a fairly deep temp path by default
-(`C:\Users\<you>\.platformio\.cache\tmp\...`), and once that's combined with
-a long package/file name inside the archive, the full path can tip over 260
-characters and Windows refuses to create the file. It shows up as a Python
-error because PlatformIO itself is a Python tool, but Python isn't the
-problem.
-
-Two fixes, in order of how much they actually solve:
-
-- **Quick, partial:** set a user environment variable
-  `PLATFORMIO_CACHE_DIR` to something short, e.g. `C:\pio-cache`. That
-  shortens the path PlatformIO extracts into by however many characters
-  your normal cache path was longer, which is often (but not always) enough.
-  Restart VS Code (and any open terminals) afterwards so the extension
-  picks up the new variable.
-- **Full, permanent fix:** enable Windows long path support, which removes
-  the 260-character limit everywhere rather than just shaving a bit off one
-  path. Needs an elevated PowerShell, run once:
-  ```powershell
-  Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -Type DWord
-  ```
-  then reboot. Once that's set, the cache-dir workaround above isn't needed
-  and can be removed.
-
-Leftover `pkg-installing-*` folders under `.platformio\.cache\tmp` from a
-failed unpack are harmless debris and PlatformIO cleans them up on its own;
-no need to delete them by hand.
-
 ## Serial commands
 
 ```
@@ -246,19 +212,3 @@ likely the sweep-analysis tool's slope calculation being thrown off by a
 transmission-zero notch sitting close to its -60dB search point, rather
 than a real difference in that filter -- the raw trace shape looks the
 same family as the rest.
-
-## Next steps
-
-With the board on your LAN (station mode WiFi) rather than isolated in its
-own hotspot, the natural next step is having it follow a radio automatically
-instead of needing manual toggling: either watching CAT commands from a
-radio connected to your PC, or acting as a TCI client so it follows
-band/frequency changes over the network that way instead. That would sit
-alongside the web UI and serial shell rather than replacing them: same
-`setBitOnBoard()`/`clearBoard()` calls, just driven by parsed CAT/TCI
-messages instead of a button press or a typed command.
-
-An ESPHome port remains an option later too if you want this on the same
-Home Assistant/Node-RED stack as the Waveshare relay board, but CAT/TCI
-following is the more useful next step for actually operating a radio
-through this.
