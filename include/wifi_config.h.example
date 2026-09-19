@@ -1,0 +1,14 @@
+#pragma once
+
+// Copy this file to wifi_config.h (same folder) and fill in your real
+// network details. wifi_config.h is gitignored so your password doesn't
+// end up committed anywhere.
+
+#define WIFI_SSID     "your-network-name"
+#define WIFI_PASSWORD "your-network-password"
+
+// Hostname the board advertises via mDNS -- reachable as http://<this>.local/
+// on networks that support it (most home LANs; some Windows PCs may need
+// Bonjour installed for .local names to resolve in a browser -- the IP
+// address printed on the serial monitor at boot always works as a fallback).
+#define MDNS_HOSTNAME "alexctrl"
