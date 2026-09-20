@@ -38,7 +38,6 @@ static const char PAGE_HTML[] = R"WEBPAGE(
 </head>
 <body>
 <h1>ALEX filter board control for Mike, G0KAD</h1>
-<div class="sub">Bit names are still being verified against the physical boards -- if a name looks wrong, fix it in alex_bits.h.</div>
 <div class="panels">
   <div class="panel">
     <h2>RX board <span class="word" id="rx-word">--</span></h2>
